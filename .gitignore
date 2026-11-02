@@ -1,0 +1,6 @@
+/academia
+/academia.exe
+/build/
+/alunos.txt
+/alunos.txt.tmp*
+*.o

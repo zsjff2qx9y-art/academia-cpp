@@ -1,0 +1,80 @@
+classDiagram
+    class Data {
+        -int dia
+        -int mes
+        -int ano
+        +Data(int dia, int mes, int ano)
+        +getDia() int
+        +getMes() int
+        +getAno() int
+        +hoje() Data
+        +deISO(string texto) Data
+        +toISO() string
+        +toString() string
+    }
+    class Aluno {
+        <<abstract>>
+        -string nome
+        -string telefone
+        -long long mensalidadeCentavos
+        -Data dataMatricula
+        +Aluno(nome, telefone, mensalidadeCentavos, dataMatricula)
+        +~Aluno()
+        +getNome() string
+        +getTelefone() string
+        +getMensalidadeCentavos() long long
+        +getDataMatricula() Data
+        +getTipo() string
+        +exibir(ostream saida) void
+        +editar(istream entrada, ostream saida) void
+        +serializar() string
+        +clonar() unique_ptr
+    }
+    class AlunoMusculacao {
+        -string objetivo
+        -string instrutor
+        +AlunoMusculacao(dadosComuns, objetivo, instrutor)
+        +getObjetivo() string
+        +getInstrutor() string
+        +getTipo() string
+        +exibir(ostream saida) void
+        +editar(istream entrada, ostream saida) void
+        +serializar() string
+        +clonar() unique_ptr
+    }
+    class AlunoFuncional {
+        -int aulasSemanais
+        -string nivel
+        +AlunoFuncional(dadosComuns, aulasSemanais, nivel)
+        +getAulasSemanais() int
+        +getNivel() string
+        +getTipo() string
+        +exibir(ostream saida) void
+        +editar(istream entrada, ostream saida) void
+        +serializar() string
+        +clonar() unique_ptr
+    }
+    class GerenciadorAcademia {
+        -vector alunos
+        -string arquivo
+        -istream entrada
+        -ostream saida
+        +GerenciadorAcademia(arquivo, entrada, saida)
+        +getAlunos() vector
+        +inserir() void
+        +listarTodos() void
+        +pesquisar(string nome) int
+        +exibirUm() void
+        +alterar() void
+        +remover() void
+        +relatorio() void
+        +salvar() void
+        -carregar() void
+    }
+    Aluno <|-- AlunoMusculacao
+    Aluno <|-- AlunoFuncional
+    Aluno "1" *-- "1" Data : dataMatricula
+    GerenciadorAcademia "1" *-- "0..*" Aluno : alunos
+
+    note for GerenciadorAcademia "alunos: vector de unique_ptr de Aluno; entrada e saida sao referencias"
+    note for Aluno "getTipo e clonar sao virtuais puros; exibir, editar e serializar sao virtuais"

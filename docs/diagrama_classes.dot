@@ -1,0 +1,68 @@
+digraph Academia {
+  graph [rankdir=TB, bgcolor="white", pad="0.35", nodesep="0.65", ranksep="0.65", fontname="DejaVu Sans", fontsize=21, label="Academia — diagrama de classes\nLinguagem de Programação I · C++17", labelloc=t];
+  node [shape=plain, fontname="DejaVu Sans", fontsize=11];
+  edge [color="#475569", fontname="DejaVu Sans", fontsize=10, arrowsize=0.9];
+
+  Gerenciador [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" COLOR="#475569">
+      <TR><TD BGCOLOR="#dbeafe"><B>GerenciadorAcademia</B></TD></TR>
+      <TR><TD ALIGN="LEFT" BORDER="1" SIDES="T">− alunos: vector&lt;unique_ptr&lt;Aluno&gt;&gt;<BR ALIGN="LEFT"/>− arquivo: string<BR ALIGN="LEFT"/>− entrada: istream&amp;<BR ALIGN="LEFT"/>− saida: ostream&amp;</TD></TR>
+      <TR><TD ALIGN="LEFT" BORDER="1" SIDES="T">+ GerenciadorAcademia(arquivo, entrada, saida)<BR ALIGN="LEFT"/>+ getAlunos(): const vector&amp;<BR ALIGN="LEFT"/>+ inserir(): void<BR ALIGN="LEFT"/>+ listarTodos(): void<BR ALIGN="LEFT"/>+ pesquisar(nome: string): int<BR ALIGN="LEFT"/>+ exibirUm(): void<BR ALIGN="LEFT"/>+ alterar(): void<BR ALIGN="LEFT"/>+ remover(): void<BR ALIGN="LEFT"/>+ relatorio(): void<BR ALIGN="LEFT"/>+ salvar(): void<BR ALIGN="LEFT"/>− carregar(): void</TD></TR>
+    </TABLE>
+  >];
+
+  Aluno [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" COLOR="#475569">
+      <TR><TD BGCOLOR="#ede9fe">«abstract»<BR/><B><I>Aluno</I></B></TD></TR>
+      <TR><TD ALIGN="LEFT" BORDER="1" SIDES="T">− nome: string<BR ALIGN="LEFT"/>− telefone: string<BR ALIGN="LEFT"/>− mensalidadeCentavos: long long<BR ALIGN="LEFT"/>− dataMatricula: Data</TD></TR>
+      <TR><TD ALIGN="LEFT" BORDER="1" SIDES="T">+ Aluno(nome, telefone, mensalidadeCentavos, dataMatricula)<BR ALIGN="LEFT"/>+ ~Aluno(): virtual<BR ALIGN="LEFT"/>+ getNome(): const string&amp;<BR ALIGN="LEFT"/>+ getTelefone(): const string&amp;<BR ALIGN="LEFT"/>+ getMensalidadeCentavos(): long long<BR ALIGN="LEFT"/>+ getDataMatricula(): const Data&amp;<BR ALIGN="LEFT"/>+ <I>getTipo(): string</I><BR ALIGN="LEFT"/>+ exibir(saida: ostream&amp;): void {virtual}<BR ALIGN="LEFT"/>+ editar(entrada: istream&amp;, saida: ostream&amp;): void {virtual}<BR ALIGN="LEFT"/>+ serializar(): string {virtual}<BR ALIGN="LEFT"/>+ <I>clonar(): unique_ptr&lt;Aluno&gt;</I></TD></TR>
+    </TABLE>
+  >];
+
+  Data [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" COLOR="#475569">
+      <TR><TD BGCOLOR="#dcfce7"><B>Data</B></TD></TR>
+      <TR><TD ALIGN="LEFT" BORDER="1" SIDES="T">− dia: int<BR ALIGN="LEFT"/>− mes: int<BR ALIGN="LEFT"/>− ano: int</TD></TR>
+      <TR><TD ALIGN="LEFT" BORDER="1" SIDES="T">+ Data(dia: int, mes: int, ano: int)<BR ALIGN="LEFT"/>+ getDia(): int<BR ALIGN="LEFT"/>+ getMes(): int<BR ALIGN="LEFT"/>+ getAno(): int<BR ALIGN="LEFT"/>+ <U>hoje(): Data</U><BR ALIGN="LEFT"/>+ <U>deISO(texto: string): Data</U><BR ALIGN="LEFT"/>+ toISO(): string<BR ALIGN="LEFT"/>+ toString(): string</TD></TR>
+    </TABLE>
+  >];
+
+  Musculacao [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" COLOR="#475569">
+      <TR><TD BGCOLOR="#fef3c7"><B>AlunoMusculacao</B></TD></TR>
+      <TR><TD ALIGN="LEFT" BORDER="1" SIDES="T">− objetivo: string<BR ALIGN="LEFT"/>− instrutor: string</TD></TR>
+      <TR><TD ALIGN="LEFT" BORDER="1" SIDES="T">+ AlunoMusculacao(..., objetivo: string, instrutor: string)<BR ALIGN="LEFT"/>+ getObjetivo(): const string&amp;<BR ALIGN="LEFT"/>+ getInstrutor(): const string&amp;<BR ALIGN="LEFT"/>+ getTipo(): string {override}<BR ALIGN="LEFT"/>+ exibir(saida: ostream&amp;): void {override}<BR ALIGN="LEFT"/>+ editar(entrada: istream&amp;, saida: ostream&amp;): void {override}<BR ALIGN="LEFT"/>+ serializar(): string {override}<BR ALIGN="LEFT"/>+ clonar(): unique_ptr&lt;Aluno&gt; {override}</TD></TR>
+    </TABLE>
+  >];
+
+  Funcional [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" COLOR="#475569">
+      <TR><TD BGCOLOR="#fef3c7"><B>AlunoFuncional</B></TD></TR>
+      <TR><TD ALIGN="LEFT" BORDER="1" SIDES="T">− aulasSemanais: int<BR ALIGN="LEFT"/>− nivel: string</TD></TR>
+      <TR><TD ALIGN="LEFT" BORDER="1" SIDES="T">+ AlunoFuncional(..., aulasSemanais: int, nivel: string)<BR ALIGN="LEFT"/>+ getAulasSemanais(): int<BR ALIGN="LEFT"/>+ getNivel(): const string&amp;<BR ALIGN="LEFT"/>+ getTipo(): string {override}<BR ALIGN="LEFT"/>+ exibir(saida: ostream&amp;): void {override}<BR ALIGN="LEFT"/>+ editar(entrada: istream&amp;, saida: ostream&amp;): void {override}<BR ALIGN="LEFT"/>+ serializar(): string {override}<BR ALIGN="LEFT"/>+ clonar(): unique_ptr&lt;Aluno&gt; {override}</TD></TR>
+    </TABLE>
+  >];
+
+  Legenda [label=<
+    <TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4">
+      <TR><TD ALIGN="LEFT"><B>Notação</B></TD></TR>
+      <TR><TD ALIGN="LEFT">+ público · − privado</TD></TR>
+      <TR><TD ALIGN="LEFT">Triângulo vazio: herança</TD></TR>
+      <TR><TD ALIGN="LEFT">Losango preenchido: composição</TD></TR>
+      <TR><TD ALIGN="LEFT"><I>Itálico: abstrato / virtual puro</I></TD></TR>
+      <TR><TD ALIGN="LEFT"><U>Sublinhado: estático</U></TD></TR>
+      <TR><TD ALIGN="LEFT">... = dados comuns do construtor de Aluno.</TD></TR>
+      <TR><TD ALIGN="LEFT">Referências e const simplificados em alguns métodos.</TD></TR>
+      <TR><TD ALIGN="LEFT">Utils.h contém funções de apoio, não uma classe.</TD></TR>
+    </TABLE>
+  >];
+
+  {rank=same; Gerenciador; Legenda;}
+  {rank=same; Aluno; Data;}
+  {rank=same; Musculacao; Funcional;}
+  Gerenciador -> Aluno [dir=both, arrowtail=diamond, arrowhead=none, taillabel="1", headlabel="0..*", label="alunos", labeldistance=1.5];
+  Aluno -> Data [dir=both, arrowtail=diamond, arrowhead=none, taillabel="1", headlabel="1", label="dataMatricula", labeldistance=1.5];
+  Aluno -> Musculacao [dir=back, arrowtail=empty];
+  Aluno -> Funcional [dir=back, arrowtail=empty];
+  Gerenciador -> Legenda [style=invis];
+}
