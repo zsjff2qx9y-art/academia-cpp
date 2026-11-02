@@ -48,7 +48,7 @@ const std::string MUSCULACAO =
 const std::string FUNCIONAL =
     "Funcional \"Bruno Lima\" \"11988881234\" 15000 \"2025-03-13\" 3 \"Iniciante\"\n";
 
-} // namespace
+}
 
 int main() {
     const fs::path pasta = fs::temp_directory_path() /
@@ -312,8 +312,7 @@ int main() {
         std::istringstream entrada;
         std::ostringstream saida;
         GerenciadorAcademia cadastro(arquivo.string(), entrada, saida);
-        // Um diretorio nao vazio no destino provoca uma falha real no rename,
-        // inclusive quando os testes rodam com permissao de administrador.
+
         fs::create_directories(arquivo);
         gravar(arquivo / "original.txt", "conteudo que deve ser preservado");
         exigirExcecao<fs::filesystem_error>([&] { cadastro.salvar(); }, "Falha ao substituir destino deveria ser informada.");

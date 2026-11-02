@@ -6,7 +6,6 @@
 #include <stdexcept>
 #include <string>
 
-// A data faz parte de cada aluno por composicao.
 class Data {
 private:
     int dia;

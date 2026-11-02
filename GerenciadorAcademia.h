@@ -17,8 +17,6 @@
 #include "AlunoFuncional.h"
 #include "Utils.h"
 
-// O vetor guarda os objetos durante o uso. O arquivo so e acessado na
-// abertura e no encerramento; nenhum CRUD altera o arquivo diretamente.
 class GerenciadorAcademia {
 private:
     std::vector<std::unique_ptr<Aluno>> alunos;
@@ -71,7 +69,7 @@ private:
         if (erro) {
             throw std::runtime_error("Nao foi possivel consultar o arquivo: " + erro.message());
         }
-        if (!existe) return; // Primeira execucao: o cadastro comeca vazio.
+        if (!existe) return;
 
         std::ifstream origem(arquivo);
         if (!origem) {
@@ -82,8 +80,6 @@ private:
             throw std::runtime_error("Arquivo de alunos invalido na linha 1: cabecalho/versao.");
         }
 
-        // So substitui o vetor quando TODOS os registros forem validos.
-        // Um arquivo danificado interrompe a abertura e nao e sobrescrito.
         std::vector<std::unique_ptr<Aluno>> carregados;
         std::size_t numeroLinha = 1;
         while (std::getline(origem, linha)) {
@@ -133,8 +129,6 @@ public:
             std::filesystem::create_directories(destino.parent_path());
         }
 
-        // Escreve ao lado do destino antes de substitui-lo. Uma falha de
-        // escrita mantem o arquivo anterior e e informada ao chamador.
         std::filesystem::path temporario = destino;
         temporario += ".tmp-" + std::to_string(
             std::chrono::steady_clock::now().time_since_epoch().count());
@@ -162,8 +156,6 @@ public:
         saida << alunos.size() << " aluno(s) salvo(s) em " << arquivo << ".\n";
     }
 
-    // Nome completo ou prefixo, incluindo espacos. O retorno e o indice
-    // atual do vetor (comeca em zero); -1 significa ausencia/cancelamento.
     int pesquisar(const std::string& nome) {
         const std::string alvo = util::minuscula(util::trim(nome));
         std::vector<int> encontrados;
@@ -198,7 +190,6 @@ public:
         }
     }
 
-    // 1. Inserir
     void inserir() {
         if (alunos.size() >= LIMITE_ALUNOS) {
             throw std::runtime_error("Limite de 100000 alunos atingido.");
@@ -222,29 +213,26 @@ public:
             aluno = std::make_unique<AlunoFuncional>(
                 nome, telefone, mensalidade, matricula, aulas, nivel);
         }
-        // Nenhum objeto incompleto entra no cadastro se ocorrer EOF.
+
         alunos.push_back(std::move(aluno));
         saida << "Aluno cadastrado!\n";
     }
 
-    // 2. Listar todos
     void listarTodos() const {
         saida << "\n-- Todos os alunos --\n";
         if (estaVazio()) return;
         for (std::size_t i = 0; i < alunos.size(); ++i) {
             saida << "\n[" << i << "]\n";
-            alunos[i]->exibir(saida); // Despacho virtual conforme a modalidade.
+            alunos[i]->exibir(saida);
         }
     }
 
-    // 3. Exibir um: reutiliza a mesma selecao de alterar e remover.
     void exibirUm() {
         if (estaVazio()) return;
         const int indice = pesquisar(util::lerTexto("Nome (ou inicio do nome): ", entrada, saida));
         if (indice >= 0) alunos[static_cast<std::size_t>(indice)]->exibir(saida);
     }
 
-    // 4. Alterar
     void alterar() {
         if (estaVazio()) return;
         const int indice = pesquisar(util::lerTexto("Nome (ou inicio do nome): ", entrada, saida));
@@ -252,13 +240,12 @@ public:
         const auto posicao = static_cast<std::size_t>(indice);
         saida << "Editando (Enter mantem o valor atual):\n";
         auto alterado = alunos[posicao]->clonar();
-        alterado->editar(entrada, saida); // Sobrescrita na subclasse.
-        // A copia evita uma edicao parcial quando a entrada termina.
+        alterado->editar(entrada, saida);
+
         alunos[posicao] = std::move(alterado);
         saida << "Aluno alterado!\n";
     }
 
-    // 5. Remover
     void remover() {
         if (estaVazio()) return;
         const int indice = pesquisar(util::lerTexto("Nome (ou inicio do nome): ", entrada, saida));
@@ -273,7 +260,6 @@ public:
         }
     }
 
-    // 6. Relatorio: indicadores agregados, diferentes da listagem.
     void relatorio() const {
         long long total = 0;
         std::map<std::string, std::pair<std::size_t, long long>> porModalidade;

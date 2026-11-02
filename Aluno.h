@@ -9,7 +9,6 @@
 #include <sstream>
 #include <string>
 
-// Superclasse abstrata: os dois tipos de aluno compartilham estes dados.
 class Aluno {
 private:
     std::string nome;
@@ -44,7 +43,7 @@ public:
     }
 
     virtual void editar(std::istream& entrada, std::ostream& saida) {
-        // Os valores so sao aplicados depois que a leitura comum terminou.
+
         const auto novoNome = util::lerTextoOpcional("  Nome", nome, entrada, saida);
         const auto novoTelefone = util::lerTelefoneOpcional(
             "  Telefone", telefone, entrada, saida);
@@ -55,7 +54,6 @@ public:
         mensalidadeCentavos = novaMensalidade;
     }
 
-    // std::quoted preserva espacos, aspas, barras e outros textos do cadastro.
     virtual std::string serializar() const {
         std::ostringstream registro;
         registro << getTipo() << ' ' << std::quoted(nome) << ' '

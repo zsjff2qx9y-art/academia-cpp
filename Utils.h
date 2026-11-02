@@ -9,7 +9,6 @@
 #include <stdexcept>
 #include <string>
 
-// Funcoes de entrada compartilhadas. Todas as leituras usam getline.
 namespace util {
 inline std::string trim(const std::string& texto) {
     const auto inicio = texto.find_first_not_of(" \t\r\n");
@@ -181,4 +180,4 @@ inline int lerInteiroOpcional(const std::string& prompt, int atual, int minimo, 
         saida << "Digite um inteiro entre " << minimo << " e " << maximo << ".\n";
     }
 }
-} // namespace util
+}
